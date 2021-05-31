@@ -1,21 +1,18 @@
+import "reflect-metadata";
 import { Response,Request} from "express";
-
+import { container } from "tsyringe";
 import { CreateCategoryUseCase } from "./CreateCategoryUseCase";
 
 
 class CreateCategoryController {
 
-    constructor(private createCategoryUseCase: CreateCategoryUseCase){
-
-    }
-
-    handle(request:Request, response: Response){
+    async handle(request:Request, response: Response): Promise<Response> {
 
         const { name,description } = request.body;
 
-        const createCategoryService = new CreateCategoryService(categoriesRepository);
+        const createCategoryUseCase = container.resolve(CreateCategoryUseCase);
             
-        createCategoryService.execute({name,description});
+        await createCategoryUseCase.execute({name,description});
 
         return response.status(201).send();
     }
