@@ -13,7 +13,7 @@ class User {
     name: string;
 
     @Column()
-    username: string;
+    email: string;
 
     @Column()
     password: string;
